@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <label>Produção média por caixa (kg)</label>
+    <br>
+    <input type="text" id="producaoMedia"><br><br>
+
+    <label>Número de caixas</label>
+    <br>
+    <input type="text" id="numeroCaixas"><br><br>
+
+    <label>Preço do mel (R$/kg)</label>
+    <br>
+    <input type="text" id="precoMel"><br><br>
+
+    <button onclick="calcular()">Calcular</button>
+    <br>
+    <div id="exibirMensagem"></div>
+</body>
+</html>
+
+<script>
+    function calcular(){
+        media = Number(producaoMedia.value);
+        caixas = Number(numeroCaixas.value);
+        preco = Number(precoMel.value);
+
+        var lucroAtual = caixas * preco * media;
+
+        if(caixas >= 100){
+            var lucroAtualizado = lucroAtual * 1.1;
+            exibirMensagem.innerHTML = `A produção atual gera R$ <b>${lucroAtual.toLocaleString("pt-BR", {minimumFractionDigits: 2})}</b>. Com o nosso serviço, é possível que haja uma redução de perda de produçao em até 10%, totalizando um faturamento de R$ <b>${lucroAtualizado.toLocaleString("pt-BR", {minimumFractionDigits: 2})}</b>`;
+        }else{
+            exibirMensagem.innerHTML = `Trabalhamos apenas com apicultores que tenham <b>50</b> ou mais colmeias!`;
+        }
+    };
+</script>

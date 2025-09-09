@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pr-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Financeira - Beetech</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+
+
+    <div class="divCard">
+
+        <div class="divImagem">
+			<img class="imagem"  src="logo-beetech.jpg" alt=""><br>
+            <h1>Simulador Financeiro</h1>
+		</div>
+
+        <div class="divPerguntas">
+            <label for="inProducao">
+                Insira a quantidade produzida de Mel (em kg): <br>
+                <input type="text" id="inProducao" class="input"><br>
+            </label>
+
+            <label for="inPerda">
+                Insira o seu percentual de perda: <br>
+                <input type="text" id="inPerda" class="input"><br>
+            </label>
+        </div>
+
+        <div class="divBotao">
+            <button onclick="botaoCalcular()" class="botaoCalcular">CALCULAR</button>
+        </div>
+
+        <div class="divMensagem" id="divMensagem">A mensagem irá aparecer aqui.</div>
+
+    </div>
+
+</body>
+
+</html>
+
+<script>
+
+    function botaoCalcular(){
+        var producao = Number(inProducao.value);
+        var perda = Number(inPerda.value);
+
+        var qtdPerdida = producao * perda / 100;
+        var perdaPorTemperatura = qtdPerdida * 0.15;
+
+        divMensagem.innerHTML = `
+        De ${producao} KG, perdendo ${perda}%. Esse valor representa <span class="vermelho">${qtdPerdida}</span> KG do total da sua produção, os problemas de temperatura podem representar até <span class="vermelho">${perdaPorTemperatura}</span> KG do total da sua perda.
+        
+        `;
+
+
+    }
+
+</script>

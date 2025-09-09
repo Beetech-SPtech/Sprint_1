@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Financeira</title>
+</head>
+<body>
+    <h1 style="color: rgb(218, 218, 52);">Calculadora Financeira:</h1>
+
+    <p><b>Dados do Apiario:</b></p>
+    <label for="input_colmeias">Quantidade de colmeias:</label>
+    <input id="input_colmeias" type="number"><br>
+    <label for="input_producaoMes">Quantidade de mel produzida por colmeia (kg / mês):</label>
+    <input id="input_producaoMes" type="text"><br>
+    <label for="input_preco">Preço por Kilo:</label>
+    <input id="input_preco" type="text" placeholder="R$ 0.00">
+
+    <br><br>
+
+    <p><b>Dados da perda da produção:</b></p>
+    <label for="input_perda">Quantidade perdida na produção (Kg / mês)</label>
+    <input id="input_perda" type="text"><br>
+
+    <br><br>
+
+    <button onclick="calcular()">Calcular</button>
+    <br><br>
+
+    <div id="div_mensagem"></div>
+</body>
+</html>
+<script>
+    function calcular() {
+        var colmeias = Number(input_colmeias.value),
+            prodMes = Number(input_producaoMes.value)
+            perdaMes = Number(input_perda.value),
+            preco = Number(input_preco.value);
+        
+        var perdaRS = perdaMes * preco,
+            ganhosRS = prodMes * preco;
+
+        div_mensagem.innerHTML = `
+        Nosso sistema pode reduzir a sua perda em até 10%<br><br>
+        
+        Balaço financeiro:<br><br>
+
+        <span style="color: red;"><b>Sem sitema:</b><br>
+        Renda mensal por colmeia: R$${ganhosRS}<br>
+        Perda mensal por colmeia: R$${perdaRS}<br>
+        Perda mensal total: R$${perdaRS * colmeias}<br></span>
+        <br>
+        <span style="color: green;"><b>Com sistema:</b><br>
+        Renda mensal por colmeia: R$${ganhosRS + (perdaRS * 0.9)}<br>
+        Ganho total do Apiario: R$${(ganhosRS + (perdaRS * 0.9)) * colmeias}</span>
+        `
+    }
+</script>

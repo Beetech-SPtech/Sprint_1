@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pr-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Financeira - Beetech</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+
+
+    <div class="divCard">
+
+        <div class="divImagem">
+			<img class="imagem"  src="logo-beetech.jpg" alt=""><br>
+            <h1>Simulador Financeiro</h1>
+		</div>
+
+        <div class="divPerguntas">
+
+            <label for="inColmeias">
+                Insira a quantidade de Colmeias: <br>
+                <input type="text" id="inColmeias" class="input"><br>
+            </label>
+            
+            <label for="inProducao">
+                Produção média por colmeia no Mês (em kg): <br>
+                <input type="text" id="inProducao" class="input"><br>
+            </label>
+
+            <label for="inPreco">
+                Preço do kg do Mel (em R$): <br>
+                <input type="text" id="inPreco" class="input"><br>
+            </label>
+        </div>
+
+        <div class="divBotao">
+            <button onclick="botaoCalcular()" class="botaoCalcular">CALCULAR</button>
+        </div>
+
+        <div class="divMensagem" id="divMensagem">Os cálculos irão aparecer aqui.</div>
+
+    </div>
+
+</body>
+
+</html>
+
+<script>
+
+    function botaoCalcular(){
+        // Declaracao de variaveis
+        var colmeias = Number(inColmeias.value);
+        var kgPorColmeiaMes = Number(inProducao.value);
+        var preco = Number(inPreco.value);
+        
+        // KG produzido mes e ano com perda
+        var producaoComPerdaMes = colmeias * kgPorColmeiaMes;
+        var producaoComPerdaAno = producaoComPerdaMes * 12
+        
+        // Calculo de perda da producao mes e ano
+        var perdaProducaoMes = producaoComPerdaMes * 0.18;
+        var perdaProducaoAno = producaoComPerdaAno * 0.18;
+        
+        // KG produzido mes e ano sem a perda
+        var producaoSemPerdaMes = producaoComPerdaMes + perdaProducaoMes;
+        var producaoSemPerdaAno = producaoComPerdaAno + perdaProducaoAno;
+        
+        // Faturamento mes e ano com perda
+        var faturamentoComPerdaMes = producaoComPerdaMes * preco;
+        var faturamentoComPerdaAno = producaoComPerdaAno * preco;
+        
+        // Faturamento mes e ano sem perda
+        var faturamentoSemPerdaMes = producaoSemPerdaMes * preco;
+        var faturamentoSemPerdaAno = producaoSemPerdaAno * preco;
+        
+        // Diferenca entre perda de faturamento mes e ano
+        var diferencaFaturamentoMes = faturamentoSemPerdaMes - faturamentoComPerdaMes;
+        var diferencaFaturamentoAno = faturamentoSemPerdaAno - faturamentoComPerdaAno;
+        
+
+        // Percentual geral de perda tanto de producao quanto de faturamento
+        var percentualPerda = (perdaProducaoMes * 100) / producaoSemPerdaMes;
+
+
+
+        divMensagem.innerHTML = `
+        DADOS MENSAIS ------------------------------------------------<BR>
+        <span>Produção no mês antes: <span class="backgroundDado">${producaoComPerdaMes}kg</span></span><br>
+        <span>Produção no mês depois: <span class="backgroundDado">${producaoSemPerdaMes}kg</span></span><br>
+        <span>Kg perdidos todo mês: ${ perdaProducaoMes}kg</span><br>
+        <br>
+
+        <span>Faturamento no mês antes: <span class="backgroundDado">${faturamentoComPerdaMes}R$</span></span><br>
+        <span>Faturamento no mês depois: <span class="backgroundDado">${faturamentoSemPerdaMes}R$</span></span><br>
+        <span>Diferença de faturamento mês: ${diferencaFaturamentoMes}R$</span><br>
+        --------------------------------------------------------------<br>
+        <br> <br>
+        DADOS ANUAIS -------------------------------------------------<BR>
+        <span>Produção no ano antes: <span class="backgroundDado">${producaoComPerdaAno}kg</span></span><br>
+        <span>Produção no ano depois: <span class="backgroundDado">${producaoSemPerdaAno}kg</span></span><br>
+        <span>Kg perdidos no ano: ${ perdaProducaoAno}kg</span><br>
+        <br>
+        
+        <span>Faturamento no ano antes: <span class="backgroundDado">${faturamentoComPerdaAno}R$</span></span><br>
+        <span>Faturamento no ano depois: <span class="backgroundDado">${faturamentoSemPerdaAno}R$</span></span><br>
+        <span>Diferença de faturamento mês: ${diferencaFaturamentoAno}R$</span><br>
+        --------------------------------------------------------------<br>
+        <br>
+
+        <span>Isso tudo representa uma <span class="vermelho">perda</span> na sua produção e <br>
+        faturamento de até: <span class="vermelho">${percentualPerda}</span>%</span>
+        `;
+        
+    }
+
+</script>

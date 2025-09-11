@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+</head>
+
+<style>
+    .chart {
+        display: flex;
+        gap: 10px;
+        align-items: end;
+        margin: 20px;
+    }
+    .charts{
+        display: flex;
+        gap: 10px;
+        align-items: end;
+        margin: 20px;
+    }
+    .bloco {
+        height: 17.9px;
+        width: 17.9px;
+        background-color: blue;
+    }
+
+    .data {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-items: center;
+    }
+
+    .column {
+        display: flex;
+        flex-direction: column;
+        padding-bottom: 45px;
+    }
+</style>
+
+<body>
+    <div id="main">
+         <label for="name">Selecione seu nome:</label>
+        <input type="text" id="input_name">
+        <button id="init" onclick="handleInit()">Entrar</button>
+    </div>
+    <script>
+        var iHive = 0;
+        var qtdHive = 0;
+        var winner;
+        var winnerTemperature;
+        var winnerKG;
+        function handleSum() {
+            input_qtdHive.value++
+        }
+        function handleSub() {
+            input_qtdHive.value--
+        }
+        function handleAvarageHive() {
+            var hiveCompare = 0;
+            var countWinner = 0;
+            var winner = 0;
+            var winnerKG = 0;
+            var winnerTemperature = 0;
+
+            loopWinner();
+            function loopWinner() {
+                if (qtdHive > countWinner) {
+                    countWinner++;
+                    console.log(charts.innerHTML)
+                    var hiveKG = Number(document.getElementById("qtdKG" + countWinner).value);
+                    var hiveTemp = Number(document.getElementById("qtdTemp" + countWinner).value);
+                    console.log(hiveKG + " winner");
+
+                    if (hiveKG > hiveCompare) {
+                        hiveCompare = hiveKG;
+                        winner = countWinner;
+                        winnerKG = hiveKG;
+                    }
+
+                    if (countWinner !== winner) {
+                        var percentageLoser = (hiveKG * 100) / winnerKG;
+                        console.log("percentage for colmeia " + countWinner + ": " + percentageLoser);
+                        var qtdChart = percentageLoser / 10;
+
+                        function addBlocks(blockCount) {
+                            if (blockCount > 0) {
+                                document.getElementById(`chart${countWinner + 1}`).innerHTML += `<div class="bloco"> </div> `;
+                                addBlocks(blockCount - 1);
+                            } else {
+                                document.getElementById(`chart${countWinner + 1}`).innerHTML += `<br> ${hiveTemp}C° <br>`;
+                                loopWinner();
+                            }
+                        }
+                        addBlocks(qtdChart);
+                    } else {
+                        loopWinner();
+                    }
+                } else {
+                    winnerTemperature = Number(document.getElementById("qtdTemp" + winner).value);
+                    var countChartWinner = 0;
+                    loopChartWinner();
+                    function loopChartWinner() {
+                        if (countChartWinner < 10) {
+                            countChartWinner++;
+                            chart1.innerHTML += `<div class="bloco"> </div> `;
+                            loopChartWinner();
+                        } else {
+                            chart1.innerHTML += `<br> ${winnerTemperature}C° <br> `;
+                        }
+                    }
+
+                    div_details.innerHTML += `<h3>A colmeia que mais produziu foi a ${winner}° e a temperatura mais produtiva foi ${winnerTemperature}C°</h3>`;
+                }
+            }
+        }
+        function handleQtdHive() {
+            qtdHive = Number(input_qtdHive.value)
+            div_qtdHive.innerHTML = ``
+            var charts = '';
+            loopHive()
+            function loopHive() {
+                if (qtdHive > iHive) {
+                    iHive++
+                    div_qtdHive.innerHTML += `
+                    <div>
+                        <span>Informação da colmeia ${iHive}:</span>
+                        <br><br>
+                        <label for="qtdKG${iHive}">Quantidade em KG produzido:</label>
+                        <input type="number" id="qtdKG${iHive}" name="qtdKG${iHive}">
+                        <br><br>
+                        <label for="qtdTemp${iHive}">Temperatura média da colmeia:</label>
+                        <input  type="number" id="qtdTemp${iHive}">
+                        </div>
+                    </div>
+                    <br><br>
+                    `
+                    
+                    charts += `<div id="chart${iHive + 1}" class="data"></div>`  
+                    console.log(charts) 
+                    loopHive()
+                } else {
+                       div_chart.innerHTML += `
+                    <div class="chart">
+                        <div class="column">
+                        <span>10-</span>
+                        <span>9-</span>
+                        <span>8-</span>
+                        <span>7-</span>
+                        <span>6-</span>
+                        <span>5-</span>
+                        <span>4-</span>
+                        <span>3-</span>
+                        <span>2-</span>
+                        <span>1-</span>
+                        </div>
+                        <div id="charts" class="charts">
+                            <div id="chart1" class="data"></div>  
+                            ${charts}  
+                        </div>
+                        </div>`
+                    
+                    div_qtdHive.innerHTML += `<button id="btn_averageHive" onclick="handleAvarageHive()">Média por colmeia</button>`
+                    iHive = 0
+                 
+
+                }
+            }
+
+        }
+        function handleShowHive(){
+             main.innerHTML = `
+               <h2>Calculadora de produtividade por colmeia</h2>
+                <br>
+                <div id="div_qtdHive">
+                    <label>Quantas colmeias Possui?</label>
+                    <input type="number" id="input_qtdHive"> <button id="sum" onclick="handleSum()">+</button><button id="sub"
+                        onclick="handleSub()">-</button><br><br>
+                    <button id="btnQtdHive" onclick="handleQtdHive()">Enviar</button>
+                    <br><br>
+
+                </div>
+                <div id="div_chart">
+
+                </div>
+                <br>
+                <div id="div_details"></div>
+                `
+        
+        }
+        
+         function handleInit() {
+            var name = input_name.value
+            main.innerHTML = `
+                <h1>Bem vindo ${name}</h1>
+                    <br>
+                    <span>Selecione o serviço desejado:</span>
+                    <br>
+                    <br>
+                <button onclick="handleShowHive()">Calcular produtividade média por colmeia</button>
+                `
+        }
+    </script>
+</body>
+
+</html>
